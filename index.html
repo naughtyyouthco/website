@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naughty.Youth.co – Collections</title>
+  <style>
+    /* ====== RESET & FONT ====== */
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    html {scroll-behavior: smooth;}
+    body {
+      background: radial-gradient(circle at top left, #000010, #000);
+      color: #fff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      overflow-x: hidden;
+      position: relative;
+      animation: fadeInBody 1s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInBody {from {opacity: 0;} to {opacity: 1;}}
+
+    /* ====== BACKGROUND GLOW ====== */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(600px at 30% 20%, rgba(0,195,255,0.15), transparent 80%),
+                  radial-gradient(800px at 80% 60%, rgba(0,0,255,0.15), transparent 80%);
+      z-index: -2;
+      animation: glowMove 10s infinite alternate ease-in-out;
+    }
+    @keyframes glowMove {
+      0% {background-position: 30% 20%, 80% 60%;}
+      100% {background-position: 40% 25%, 70% 65%;}
+    }
+
+    /* ====== STAR PARTICLES ====== */
+    .stars {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      overflow: hidden; z-index: -1;
+    }
+    .stars span {
+      position: absolute;
+      display: block;
+      width: 2px; height: 2px;
+      background: #00c3ff;
+      border-radius: 50%;
+      animation: twinkle 1s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%,100% {opacity: 0.2; transform: scale(0.5);}
+      50% {opacity: 1; transform: scale(1.2);}
+    }
+
+    a {color: #fff; text-decoration: none; transition: color 0.3s ease, text-shadow 0.3s ease;}
+    a:hover {color: #00c3ff; text-shadow: 0 0 10px #00c3ff, 0 0 20px #00c3ff;}
+
+    /* ====== HERO SECTION ====== */
+    .hero {
+      height: 100vh;
+      background: url('hero-bg.jpg') center/cover no-repeat fixed;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center; color: #00c3ff;
+      text-shadow: 0 0 15px #00c3ff;
+      animation: fadeHero 1.5s ease-in-out;
+    }
+    @keyframes fadeHero {from {opacity: 0; transform: translateY(50px);} to {opacity: 1; transform: translateY(0);}}
+    .hero h1 {font-size: 60px; letter-spacing: 8px; margin-bottom: 10px;}
+    .hero p {font-size: 18px; color: #fff;}
+    .btn-hero {
+      margin-top: 20px; border: 2px solid #00c3ff; padding: 10px 25px;
+      border-radius: 30px; transition: all 0.3s ease; cursor: pointer;
+    }
+    .btn-hero:hover {background: #00c3ff; color: #000; box-shadow: 0 0 20px #00c3ff;}
+
+    /* ====== TOP MARQUEE ====== */
+    .marquee {
+      background-color: #00c3ff; color: #000; font-size: 16px; font-weight: 710;
+      white-space: nowrap; overflow: hidden; position: relative;
+      box-shadow: 0 0 10px #00c3ff;
+    }
+    .marquee p {
+      display: inline-block; padding-left: 100%; animation: scroll-left 15s linear infinite;
+    }
+    @keyframes scroll-left {0% {transform: translateX(0);} 100% {transform: translateX(-100%);} }
+
+    /* ====== NAVBAR ====== */
+    nav {
+      background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
+      display: flex; justify-content: center; align-items: center;
+      padding: 20px 15px; border-bottom: 1px solid rgba(0,195,255,0.2);
+      flex-wrap: wrap; position: sticky; top: 0; z-index: 100;
+      transition: background 0.5s ease;
+    }
+    nav.scrolled {background: rgba(0, 0, 0, 0.8);}
+    nav a {margin: 0 20px; font-size: 20px; letter-spacing: 6px;}
+    nav a.active {color: #00c3ff; text-shadow: 0 0 8px #00c3ff, 0 0 16px #00c3ff;}
+
+    /* ====== COLLECTIONS ====== */
+    .collections {max-width: 1200px; margin: 50px auto; padding: 0 20px;}
+    .collections a {
+      display: block; font-size: 42px; text-transform: uppercase;
+      padding: 20px 0; border-bottom: 1px solid #00ffdd;
+      opacity: 0; transform: translateY(50px); transition: all 0.6s ease;
+    }
+    .collections a.active {opacity: 1; transform: translateY(0);}
+
+    /* ====== CATALOG SECTION ====== */
+    .catalog {
+      max-width: 1200px; margin: 60px auto; padding: 0 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    }
+    .catalog-item {
+      position: relative; overflow: hidden; border-radius: 10px;
+      perspective: 1000px; transition: transform 0.3s ease; cursor: pointer;
+    }
+    .catalog-item img {
+      width: 100%; transition: transform 0.3s ease;
+      border: 2px solid transparent; animation: neon-border 3s infinite alternate;
+    }
+    @keyframes neon-border {
+      0% { box-shadow: 0 0 10px #00c3ff; border-color: #00c3ff; }
+      100% { box-shadow: 0 0 30px #00c3ff; border-color: #00c3ff; }
+    }
+    .catalog-item:hover img {transform: scale(1.1);}
+    .catalog-info {
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      background: rgba(0, 0, 0, 0.8); color: #00c3ff; text-align: center;
+      padding: 10px 0; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .catalog-item:hover .catalog-info {opacity: 1;}
+
+    /* ====== ROTATING LOGO VIDEO ====== */
+    .logo-video {
+      position: fixed; top: 20px; left: 20px; width: 30px; height: 30px;
+      z-index: 999; border-radius: 50%; overflow: hidden;
+      animation: pulse 2s infinite ease-in-out;
+      box-shadow: 0 0 0px #00c3ff00;
+    }
+    @keyframes pulse {
+      0%,100% {box-shadow: 0 0 10px #00c3ff;}
+      50% {box-shadow: 0 0 25px #00ffff;}
+    }
+    .logo-video video {width: 100%; height: 100%; object-fit: cover;}
+
+    /* ====== FOOTER ====== */
+    footer {
+      text-align: center; padding: 60px 20px; border-top: 1px solid #111;
+      margin-top: 80px; color: #aaa; font-size: 14px; letter-spacing: 1px;
+      overflow: hidden; position: relative;
+    }
+    footer::before {
+      content: ""; position: absolute; top: 0; left: 0;
+      width: 200%; height: 200%;
+      background: repeating-linear-gradient(
+        45deg, rgba(0, 195, 255, 0.05),
+        rgba(0, 195, 255, 0.05) 10px, transparent 10px, transparent 20px
+      );
+      animation: moveGrid 10s linear infinite;
+    }
+    @keyframes moveGrid {from {transform: translate(0, 0);} to {transform: translate(-50px, -50px);} }
+    footer h3, footer p, footer span {position: relative; z-index: 1;}
+    footer h3 {color: #00c3ff; font-size: 18px; margin-bottom: 10px; text-transform: uppercase;}
+    footer p {color: #ddd; margin-bottom: 5px;}
+    footer span {color: #00c3ff; font-weight: bold;}
+
+    /* ====== MODALS ====== */
+    .modal, .payment-modal {
+      display: none; position: fixed; z-index: 1000;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9); justify-content: center; align-items: center;
+    }
+    .modal-content, .payment-content {
+      background: #111; padding: 30px; border-radius: 10px;
+      text-align: center; border: 2px solid #00c3ff; box-shadow: 0 0 30px #00c3ff;
+      max-width: 400px; width: 90%;
+    }
+    .size-options button {
+      margin: 5px; padding: 10px 15px; border: 2px solid #00c3ff;
+      background: transparent; color: #00c3ff; cursor: pointer; border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .size-options button:hover {background: #00c3ff; color: #000;}
+    .close-btn {margin-top: 15px; color: #aaa; cursor: pointer;}
+    .payment-content img {width: 200px; margin: 15px auto; display: block; border-radius: 10px;}
+    .whatsapp-btn {
+      display: inline-block; margin-top: 10px; padding: 10px 20px;
+      background: #00c3ff; color: #000; border-radius: 8px; text-decoration: none;
+      font-weight: bold; transition: 0.3s;
+    }
+    .whatsapp-btn:hover {background: #008ccc;}
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      .hero h1 {font-size: 38px;}
+      nav a {font-size: 16px; margin: 10px;}
+      .collections a {font-size: 28px;}
+      .logo-video {width: 50px; height: 50px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== BACKGROUND PARTICLES ====== -->
+  <div class="stars"></div>
+
+  <!-- ====== ROTATING VIDEO LOGO ====== -->
+  <div class="logo-video">
+    <video src="0001-0120.mkv" autoplay muted loop></video>
+  </div>
+
+  <!-- ====== MARQUEE ====== -->
+  <div class="marquee"><p>WELCOME TO OUR SITE &nbsp; NAUGHTY YOUTH &nbsp; ORDER NOW !!!</p></div>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav>
+    <a href="https://www.instagram.com/naughty.youth.co/" target="_blank">INSTAGRAM</a>
+    <a href="#">ORDER</a>
+    <a href="index.html" class="active">COLLECTIONS</a>
+    <a href="https://shopee.co.id/naughtyyouth" target="_blank">SHOPEE</a>
+    <a href="#" target="_blank">SPOTIFY</a>
+  </nav>
+
+  <!-- ====== COLLECTIONS ====== -->
+  <section id="collections" class="collections">
+    <a href="#">T-SHIRT DESERT EAGLE</a>
+    <a href="#">T-SHIRT SECOND VISION</a>
+    <a href="#">T-SHIRT HEISENBERG</a>
+    <a href="#">T-SHIRT TECHNOFISH</a>
+    <a href="#">LONGSLEEVE TECHNOFISH</a>
+    <a href="#">T-SHIRT DIVE FREE</a>
+  </section>
+
+  <!-- ====== CATALOG ====== -->
+  <section class="catalog">
+    <div class="catalog-item" data-title="DESERT EAGLE"><img src="gbr1.png"><div class="catalog-info"><h3>DESERT EAGLE</h3><p>Rp SOLD </p></div></div>
+    <div class="catalog-item" data-title="SECOND VISION"><img src="gbr3.png"><div class="catalog-info"><h3>SECOND VISION</h3><p>Rp SOLD </p></div></div>
+    <div class="catalog-item" data-title="HEISENBERG"><img src="gbr2.png"><div class="catalog-info"><h3>HEISENBERG</h3><p>Rp 140.000</p></div></div>
+    <div class="catalog-item" data-title="TECHNOFISH"><img src="gbr5.png"><div class="catalog-info"><h3>TECHNOFISH</h3><p>Rp 135.000</p></div></div>
+    <div class="catalog-item" data-title="LONGSLEEVE"><img src="gbr6.png"><div class="catalog-info"><h3>LONGSLEEVE</h3><p>Rp 145.000</p></div></div>
+    <div class="catalog-item" data-title="DIVE FREE"><img src="gbr4.png"><div class="catalog-info"><h3>DIVE FREE</h3><p>Rp 135.000</p></div></div>
+  </section>
+
+  <!-- ====== SIZE MODAL ====== -->
+  <div class="modal" id="sizeModal">
+    <div class="modal-content">
+      <h3 id="productTitle"></h3>
+      <p>Pilih Ukuran:</p>
+      <div class="size-options">
+        <button data-size="S">S</button>
+        <button data-size="M">M</button>
+        <button data-size="L">L</button>
+        <button data-size="XL">XL</button>
+      </div>
+      <button id="orderBtn" class="btn-hero">Order</button>
+      <div class="close-btn" id="closeModal">Tutup</div>
+    </div>
+  </div>
+
+  <!-- ====== PAYMENT MODAL ====== -->
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-content">
+      <h3>Bayar Sekarang</h3>
+      <img src="qrisny.jpeg.png" alt="QRIS Pembayaran">
+      <p> Screenshot bukti transaksi dan konfirmasi melalui WhatsApp.</p>
+      <a id="waLink" class="whatsapp-btn" target="_blank">Konfirmasi ke Admin</a>
+      <div class="close-btn" id="closePayment">Tutup</div>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    <h3>THANK YOU FOR YOUR SUPPORT!</h3>
+    <p>We appreciate every single one of you who supports <span>Naughty.Youth.co</span>.</p>
+    <p>Stay bold. Stay creative. Stay youth.</p><br>
+    <p>© 2025 <span>Naughty.Youth.co</span> | All Rights Reserved</p>
+  </footer>
+
+  <!-- ====== SCRIPT ====== -->
+  <script>
+    // === STAR GENERATOR ===
+    const stars = document.querySelector('.stars');
+    for (let i = 0; i < 60; i++) {
+      const star = document.createElement('span');
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      stars.appendChild(star);
+    }
+
+    // === NAVBAR CHANGE ON SCROLL ===
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('scrolled', window.scrollY > 100);
+    });
+
+    // === COLLECTION SCROLL ANIMATION ===
+    const reveals = document.querySelectorAll('.collections a');
+    window.addEventListener('scroll', () => {
+      for (let i = 0; i < reveals.length; i++) {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveals[i].getBoundingClientRect().top;
+        if (elementTop < windowHeight - 150) reveals[i].classList.add('active');
+      }
+    });
+
+    // === CARD 3D EFFECT ===
+    document.querySelectorAll('.catalog-item').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const x = e.offsetX / card.offsetWidth - 0.5;
+        const y = e.offsetY / card.offsetHeight - 0.5;
+        card.style.transform = `rotateX(${y * 10}deg) rotateY(${x * 10}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {card.style.transform = '';});
+    });
+
+    // === MODALS ===
+    const sizeModal = document.getElementById('sizeModal');
+    const paymentModal = document.getElementById('paymentModal');
+    const productTitle = document.getElementById('productTitle');
+    let selectedProduct = "";
+    let selectedSize = "";
+
+    document.querySelectorAll('.catalog-item').forEach(item => {
+      item.addEventListener('click', () => {
+        selectedProduct = item.dataset.title;
+        sizeModal.style.display = 'flex';
+        productTitle.textContent = selectedProduct;
+      });
+    });
+
+    document.querySelectorAll('.size-options button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedSize = btn.dataset.size;
+        document.querySelectorAll('.size-options button').forEach(b => b.style.background = 'transparent');
+        btn.style.background = '#00c3ff'; btn.style.color = '#000';
+      });
+    });
+
+    document.getElementById('orderBtn').addEventListener('click', () => {
+      if (!selectedSize) {
+        alert('Pilih ukuran terlebih dahulu!');
+        return;
+      }
+      sizeModal.style.display = 'none';
+      paymentModal.style.display = 'flex';
+      const waNumber = '6283856355854';
+      const waMessage = `Halo Naughty.Youth.co 👋 Saya ingin order ${selectedProduct} ukuran ${selectedSize}.`;
+      document.getElementById('waLink').href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+    });
+
+    document.getElementById('closeModal').onclick = () => sizeModal.style.display = 'none';
+    document.getElementById('closePayment').onclick = () => paymentModal.style.display = 'none';
+    window.onclick = e => {
+      if (e.target === sizeModal) sizeModal.style.display = 'none';
+      if (e.target === paymentModal) paymentModal.style.display = 'none';
+    };
+  </script>
+</body>
+</html>
